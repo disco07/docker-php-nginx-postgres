@@ -1,0 +1,52 @@
+version: '3'
+
+services:
+  nginx:
+    image: nginx:stable-alpine
+    container_name: nginx-container
+    volumes:
+      - ./server:/var/www/project
+      - ./server:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - php8
+      - postgres
+    ports:
+      - "8080:80"
+
+  php8:
+    build:
+      context: .
+      dockerfile: ./php8/Dockerfile
+    container_name: php8-container
+    ports:
+      - "9000:9000"
+    depends_on:
+      - postgres
+    volumes:
+      - ./server:/var/www/project
+
+  postgres:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-partaudit}
+        # You should definitely change the password in production
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-ChangeMe}
+      POSTGRES_USER: ${POSTGRES_USER:-symfony}
+    volumes:
+      - db-data:/var/lib/postgresql/data:rw
+
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=partaudit@pgadmin.org
+      - PGADMIN_DEFAULT_PASSWORD=7BixyPr25B28s7SQ
+    ports:
+      - '5050:80'
+    restart: always
+    volumes:
+      - pgadmin:/root/.pgadmin
+
+volumes:
+  db-data:
+  pgadmin:
