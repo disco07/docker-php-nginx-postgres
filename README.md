@@ -2,7 +2,6 @@
 Environment for develop an app 
 
 A very simple Docker-compose to discover Symfony 6 with PHP 8.1 in 5 minutes
-<hr>
 
 ## How to run ?
 Clone the project
