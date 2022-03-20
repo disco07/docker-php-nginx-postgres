@@ -34,5 +34,7 @@ DATABASE_URL="postgresql://symfony:ChangeMe@postgres:5432/app?serverVersion=13&c
 
 ## Requirements
 <ul>
-<li>Linux-Windows-MacOs</li><li>Docker</li><li>docker-compose</li>
+<li>Linux-Windows-MacOs</li>
+<li>Docker</li>
+<li>docker-compose</li>
 </ul>
