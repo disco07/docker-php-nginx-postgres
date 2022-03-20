@@ -1,4 +1,4 @@
-FROM php:7.4-fpm
+FROM php:8.1-fpm
 
 RUN apt-get update && apt-get install -y zlib1g-dev g++ git libicu-dev zip libzip-dev zip \
     && docker-php-ext-install intl opcache pdo pdo_mysql \
@@ -7,10 +7,12 @@ RUN apt-get update && apt-get install -y zlib1g-dev g++ git libicu-dev zip libzi
     && docker-php-ext-configure zip \
     && docker-php-ext-install zip
 
-    # Install pgsql goodness
-    && apk add postgresql-dev \
-    && docker-php-ext-install pgsql pdo_pgsql \
-    && apk del postgresql-libs libsasl db \
+RUN apt-get install -y libpq-dev \
+    && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
+    && docker-php-ext-install pdo pdo_pgsql pgsql
+
+RUN git config --global user.email "koneenok@outlook.fr" \
+    &&  git config --global user.name "disco07"
 
 WORKDIR /var/www/project
 

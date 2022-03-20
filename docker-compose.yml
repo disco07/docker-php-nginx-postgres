@@ -1,22 +1,25 @@
 version: '3'
 
+networks:
+  nginx-php8-postgres:
+
 services:
   nginx:
-    image: nginx:stable-alpine
+    image: nginx:latest
     container_name: nginx-container
     volumes:
       - ./server:/var/www/project
-      - ./server:/etc/nginx/conf.d/default.conf
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
     depends_on:
       - php8
       - postgres
     ports:
       - "8080:80"
+    networks:
+      - nginx-php8-postgres
 
   php8:
-    build:
-      context: .
-      dockerfile: ./php8/Dockerfile
+    build: php8
     container_name: php8-container
     ports:
       - "9000:9000"
@@ -24,9 +27,14 @@ services:
       - postgres
     volumes:
       - ./server:/var/www/project
+    networks:
+      - nginx-php8-postgres
 
   postgres:
     image: postgres
+    container_name: postgres-container
+    ports:
+      - "5432:5432"
     restart: always
     environment:
       POSTGRES_DB: ${POSTGRES_DB:-partaudit}
@@ -35,9 +43,13 @@ services:
       POSTGRES_USER: ${POSTGRES_USER:-symfony}
     volumes:
       - db-data:/var/lib/postgresql/data:rw
+    networks:
+      - nginx-php8-postgres
+
 
   pgadmin:
     image: dpage/pgadmin4
+    container_name: pgadmin-container
     environment:
       - PGADMIN_DEFAULT_EMAIL=partaudit@pgadmin.org
       - PGADMIN_DEFAULT_PASSWORD=7BixyPr25B28s7SQ
@@ -46,6 +58,9 @@ services:
     restart: always
     volumes:
       - pgadmin:/root/.pgadmin
+    networks:
+      - nginx-php8-postgres
+
 
 volumes:
   db-data:
