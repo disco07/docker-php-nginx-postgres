@@ -11,8 +11,8 @@ RUN apt-get install -y libpq-dev \
     && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
     && docker-php-ext-install pdo pdo_pgsql pgsql
 
-RUN git config --global user.email "koneenok@outlook.fr" \
-    &&  git config --global user.name "disco07"
+RUN git config --global user.email "example@example.fr" \
+    &&  git config --global user.name "username"
 
 WORKDIR /var/www/project
 
