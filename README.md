@@ -1,12 +1,10 @@
 # Symfony 6 + PHP 8.1 with Docker
-<hr>
 Environment for develop an app 
 
 A very simple Docker-compose to discover Symfony 6 with PHP 8.1 in 5 minutes
 <hr>
 
 ## How to run ?
-<hr>
 Clone the project
 ```bash
 git clone https://github.com/disco07/docker-php-nginx-postgres.git
@@ -35,8 +33,7 @@ Modify the .env file like this:
 DATABASE_URL="postgresql://symfony:ChangeMe@postgres:5432/app?serverVersion=13&charset=utf8"
 ```
 
-##Requirements
-<hr>
+## Requirements
 <ul>
 <li>Linux-Windows-MacOs</li><li>Docker</li><li>docker-compose</li>
 </ul>
